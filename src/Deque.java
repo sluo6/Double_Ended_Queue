@@ -7,5 +7,7 @@ public interface Deque<Item> {
 	public void printDeque();
 	public Item removeFirst();
 	public Item removeLast();
-	public Item get(int index);	
+	public Item get(int index);
+
+			
 }
