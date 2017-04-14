@@ -1,5 +1,5 @@
 
-public class LinkedListDeque<Item> implements Deque{
+public class LinkedListDeque<Item> implements Deque<Item>{
 	
 	public class Node{
 		public Item item;
@@ -32,7 +32,7 @@ public class LinkedListDeque<Item> implements Deque{
 	}
 	
 	@Override
-	public void addFirst(Object x) {
+	public void addFirst(Item x) {
 		size+=1;
 		Item X = (Item)x;
 
@@ -50,7 +50,7 @@ public class LinkedListDeque<Item> implements Deque{
 		return SearchNode;
 	}
 	@Override
-	public void addLast(Object x) {
+	public void addLast(Item x) {
 		size+=1;
 		Item X = (Item)x;
 		Node oldNode = getLastNode();
@@ -77,9 +77,9 @@ public class LinkedListDeque<Item> implements Deque{
 		Node lastNode = getLastNode();
 		for(Node x = sentinel.next; x.next!=sentinel; x = x.next){
 			Item i = x.item;
-			System.out.print(i + "");
+			System.out.print(i + " ");
 			}
-		System.out.print(lastNode + "");
+		System.out.print(lastNode + " ");
 		System.out.println();
 	}
 
