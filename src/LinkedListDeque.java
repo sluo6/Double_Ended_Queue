@@ -1,5 +1,6 @@
 
 public class LinkedListDeque<Item> implements Deque{
+	
 	public class Node{
 		public Item item;
 		public Node next;
@@ -15,9 +16,12 @@ public class LinkedListDeque<Item> implements Deque{
 	private Node sentinel;
 	private int size;
 	
-	public LinkedListDeque(){
+	public LinkedListDeque(){		
 		size = 0;
 		sentinel = new Node (null, null, null);
+		//IMPORTANT!!!When list is empty, sentinel node should point to itself.
+		sentinel.next=sentinel;
+		sentinel.previous=sentinel;
 	}
 	
 	public LinkedListDeque(Item i){
@@ -81,18 +85,23 @@ public class LinkedListDeque<Item> implements Deque{
 
 	@Override
 	public Item removeFirst() {
+		//Don't forget to resize!!!
+		size-=1;
 		Node firstNode = sentinel.next;
 		sentinel.next = firstNode.next;
 		firstNode.previous = sentinel;
-		return firstNode.item;
+		return firstNode.item;		
 	}
 
 	@Override
 	public Item removeLast() {
+		//Don't forget to resize!!!
+		size-=1;
 		Node lastNode = getLastNode();
 		lastNode.previous.next = sentinel;
 		sentinel.previous = lastNode.previous;
 		return lastNode.item;
+		
 	}
 
 	@Override
