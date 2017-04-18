@@ -14,6 +14,7 @@ public class ArrayDequeTest {
 		test.addFirst("c");
 		test.addFirst("d");
 		test.addFirst("e");
+		test.addLast("lastItem");
 		//String output = test.get(1);
 	//	int nextfirst = test.nextLast;
 		test.printDeque();
