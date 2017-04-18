@@ -10,40 +10,60 @@ public class ArrayDeque<Item> implements Deque<Item>{
 	
 	public ArrayDeque(){
 		size = 0;
-		nextFirst = 4;
-		nextLast = 5;
+		nextFirst = 0;
+		nextLast = 1;
 		arraySize = 8;
 		items = (Item[]) new Object[arraySize];
 	}
 	
-	/*reSize the array when reaches its capacity*/
+	/*reSize the array when array is too small or too large*/
 	private void reSize(int capacity){
 		Item[] copyTo = (Item[]) new Object[capacity];
-		if(nextFirst>=nextLast){
-			System.arraycopy(items, 0, copyTo, 0, nextLast);
-			System.arraycopy(items, nextFirst+1, copyTo, capacity-size+nextFirst+2, size-nextFirst-1);
-			nextLast = capacity-size+nextFirst+1;
+		for(int i=0; i<size; i++){
+			copyTo[i]= get(i);
+			nextFirst = capacity - 1;
+			nextLast = size;
+			items = copyTo;
 		}
-		else {
-			System.arraycopy(items, nextFirst+1, copyTo, nextFirst+1, nextLast-nextFirst-1);
-			
+	}
+	
+	private int minusOne(int index){
+		int position;
+		if(index==0){
+			position = arraySize - 1;
 		}
+		else{
+			position = index - 1;
+		}
+		return position;
+	}
+	
+	private int plusOne(int index){
+		int position;
+		position = (index + 1)%arraySize;
+		return position;
 	}
 	
 	@Override
 	public void addFirst(Object x) {
+		if (size == arraySize){
+			arraySize=arraySize*FACTOR;
+			reSize(arraySize);			
+		}
 		size+=1;
-		int position = nextFirst;
-		items[position]=(Item)x;
-		nextFirst = (nextFirst-1)%arraySize;		
+		items[nextFirst]=(Item)x;
+		nextFirst = minusOne(nextFirst);		
 	}
 
 	@Override
 	public void addLast(Object x) {
+		if (size == arraySize){
+			arraySize=arraySize*FACTOR;
+			reSize(arraySize);			
+		}
 		size+=1;
-		int position = nextLast;
-		items[position]=(Item)x;
-		nextLast = (nextLast+1)%arraySize;
+		items[nextLast]=(Item)x;
+		nextLast = plusOne(nextLast);
 	}
 
 	@Override
@@ -62,48 +82,47 @@ public class ArrayDeque<Item> implements Deque<Item>{
 
 	@Override
 	public void printDeque() {
-		int i = (nextFirst+1)%arraySize;
+		int i = plusOne(nextFirst);
 		int j = 0;
-		while (i<=size){
+		while (j<size){
 			System.out.println(j + " "+ items[i]);
 			System.out.println(" ");
-			i+=1;
+			i=plusOne(i);
 			j+=1;
 		}		
 	}
 
 	@Override
 	public Item removeFirst() {
+		if(arraySize/size>FACTOR){
+			arraySize=arraySize/FACTOR;
+			reSize(arraySize);	
+		}
 		size-=1;
-		int position = (nextFirst+1)%arraySize;	
+		int position = plusOne(nextFirst);	
 		Item removed = items[position];
 		items[position]	= null;
-		nextFirst = (nextFirst+1)%arraySize;
+		nextFirst = plusOne(nextFirst);
 		return removed;
 	}
 
 	@Override
 	public Item removeLast() {
+		if(arraySize/size>FACTOR){
+			arraySize=arraySize/FACTOR;
+			reSize(arraySize);
+		}
 		size-=1;
-		Item removed;
-		if (nextLast>=1){			
-			int position = nextLast-1;
-			removed = items[position];
-			items[position]= null;
-			nextLast = nextLast-1;
-		}
-		else {
-			int position = items.length-1;
-			removed = items[position];
-			items[position]= null;
-			nextLast = items.length-1;
-		}
+		int position = minusOne(nextLast);
+		Item removed = items[position];
+		items[position]= null;
+		nextLast = minusOne(nextLast);		
 		return removed;
 	}
 
 	@Override
 	public Item get(int index) {
-		int position = (nextFirst + index)%arraySize;
+		int position = (nextFirst + index+1)%arraySize;
 		return items[position];
 	}
 
