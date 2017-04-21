@@ -13,7 +13,7 @@ public class ArrayDequeTest {
 		test.addFirst("b");
 		test.addFirst("c");
 		test.addFirst("d");
-		test.addFirst("e");
+	//	test.addFirst("e");
 		//String output = test.get(1);
 	//	int nextfirst = test.nextLast;
 		test.printDeque();

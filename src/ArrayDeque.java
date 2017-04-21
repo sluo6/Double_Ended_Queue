@@ -21,10 +21,10 @@ public class ArrayDeque<Item> implements Deque<Item>{
 		Item[] copyTo = (Item[]) new Object[capacity];
 		for(int i=0; i<size; i++){
 			copyTo[i]= get(i);
+		}
 			nextFirst = capacity - 1;
 			nextLast = size;
 			items = copyTo;
-		}
 	}
 	
 	private int minusOne(int index){
@@ -57,9 +57,9 @@ public class ArrayDeque<Item> implements Deque<Item>{
 
 	@Override
 	public void addLast(Object x) {
-		if (size == arraySize){
-			arraySize=arraySize*FACTOR;
-			reSize(arraySize);			
+		if (size == arraySize){			
+			reSize(arraySize*FACTOR);	
+			arraySize= arraySize*FACTOR;
 		}
 		size+=1;
 		items[nextLast]=(Item)x;
