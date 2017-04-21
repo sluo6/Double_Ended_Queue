@@ -1,10 +1,10 @@
-
 public class ArrayDeque<Item> implements Deque<Item>{
 	private Item[] items;
 	private int size;
 	private int nextFirst;
 	private int nextLast;
 	private int arraySize;
+	private int newSize;
 	
 	private static int FACTOR=2;
 	
@@ -25,6 +25,7 @@ public class ArrayDeque<Item> implements Deque<Item>{
 			nextFirst = capacity - 1;
 			nextLast = size;
 			items = copyTo;
+			arraySize = newSize;		
 	}
 	
 	private int minusOne(int index){
@@ -47,8 +48,8 @@ public class ArrayDeque<Item> implements Deque<Item>{
 	@Override
 	public void addFirst(Object x) {
 		if (size == arraySize){
-			arraySize=arraySize*FACTOR;
-			reSize(arraySize);			
+			newSize=arraySize*FACTOR;
+			reSize(newSize);			
 		}
 		size+=1;
 		items[nextFirst]=(Item)x;
@@ -57,9 +58,9 @@ public class ArrayDeque<Item> implements Deque<Item>{
 
 	@Override
 	public void addLast(Object x) {
-		if (size == arraySize){			
-			reSize(arraySize*FACTOR);	
-			arraySize= arraySize*FACTOR;
+		if (size == arraySize){
+			newSize=arraySize*FACTOR;
+			reSize(newSize);			
 		}
 		size+=1;
 		items[nextLast]=(Item)x;
@@ -95,8 +96,8 @@ public class ArrayDeque<Item> implements Deque<Item>{
 	@Override
 	public Item removeFirst() {
 		if(arraySize/size>FACTOR){
-			arraySize=arraySize/FACTOR;
-			reSize(arraySize);	
+			newSize=arraySize/FACTOR;
+			reSize(newSize);	
 		}
 		size-=1;
 		int position = plusOne(nextFirst);	
@@ -109,8 +110,8 @@ public class ArrayDeque<Item> implements Deque<Item>{
 	@Override
 	public Item removeLast() {
 		if(arraySize/size>FACTOR){
-			arraySize=arraySize/FACTOR;
-			reSize(arraySize);
+			newSize=arraySize/FACTOR;
+			reSize(newSize);
 		}
 		size-=1;
 		int position = minusOne(nextLast);
